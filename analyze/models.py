@@ -10,9 +10,10 @@ class User(AbstractUser):
     )
     mobile = models.CharField(max_length=12)
     email = models.EmailField(unique=True)
-    age = models.IntegerField()
-    gender = models.IntegerField(choices=GENDER_CHOICES)
-    username = None
+    age = models.IntegerField(default=0)
+    gender = models.IntegerField(choices=GENDER_CHOICES, default=1)
+    has_cancer = models.BooleanField(default=False)
+    username = models.CharField(null=True, blank=True, max_length=12)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'mobile']
+    REQUIRED_FIELDS = ['first_name', 'mobile', 'username']

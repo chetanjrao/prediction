@@ -55,6 +55,12 @@ def predict(request: WSGIRequest):
             If output is equal to 0,  then the person does not have breast cancer
         '''
         output = CLASSIFICATION_MODEL.predict(df)
-        res_val = "has breast cancer" if output == 1 else "does not have breast cancer"
+        if output == 1:
+            user = User.objects.get(pk=request.user.pk)
+            user.has_cancer = True
+            user.save()
+            res_val = "has breast cancer"
+        else:
+            res_val = "does not have breast cancer"
         return render(request, "predict.html", { "prediction_text": 'Patient {} {}'.format(request.user.first_name, res_val) })
     return render(request, "predict.html")

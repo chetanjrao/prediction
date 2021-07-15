@@ -14,11 +14,10 @@ def index(request: WSGIRequest):
         email = request.POST["email"]
         mobile = request.POST["mobile"]
         age = request.POST["age"]
-        gender = request.POST["gender"]
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            user = User.objects.create(first_name=name, mobile=mobile, email=email, age=age, gender=gender)
+            user = User.objects.create(first_name=name, mobile=mobile, email=email, age=age)
         login(request, user)
         return redirect('predict')
     return render(request, "index.html")
